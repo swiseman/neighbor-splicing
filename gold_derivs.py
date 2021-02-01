@@ -1,7 +1,3 @@
-"""
-different than mgd2 in that we're predicting <bos> tgt <eos> and also wrapping neighbors
-in bos and eoses, to encourage copying from a neighbor first..
-"""
 import os
 import argparse
 import pickle

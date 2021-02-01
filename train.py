@@ -232,8 +232,6 @@ parser.add_argument('-cuda', action='store_true', help='use CUDA')
 parser.add_argument('-log_interval', type=int, default=200, help='report interval')
 parser.add_argument('-save', type=str, default='', help='path to save the final model')
 parser.add_argument('-train_from', type=str, default='', help='')
-parser.add_argument('-nruns', type=int, default=100, help='')
-parser.add_argument('-grid', action='store_true', help='')
 parser.add_argument('-just_eval', action='store_true', help='')
 
 # adapted from huggingface transformers examples/lightning_base.py
@@ -384,47 +382,5 @@ if __name__ == "__main__":
 
     beta1, beta2, aeps, awd = [float(thing) for thing in args.adamhyps.split(',')]
     args.beta1, args.beta2, args.aeps, args.awd = beta1, beta2, aeps, awd
-
-    def idxing_choices(opts):
-        return [True]
-
-    hypers = OrderedDict({'optalg': ['hf_adamw'],
-                          'attopts': ['Q', 'QK', 'QV'],
-                          'init': [0.1, 0.05, 0.01],
-                          'lr': [0.0005, 0.0003], #0.0001],
-                          'beta1': [0.85, 0.9, 0.95],
-                          'beta2': [0.9, 0.99, 0.999],
-                          'aeps': [1e-6, 1e-7, 1e-8],
-                          'awd': [0, 1e-3, 1e-2],
-                          'enc_layers': [4, 5], #6],
-                          'senc_layers': [4, 5], #6],
-                          'seed': list(range(100000)),
-                          'share_encs': [True, False],
-                          'sel_firstlast_idxing': idxing_choices,
-                          'prenorm': [True, False],
-                         })
-
     torch.manual_seed(args.seed)
-    if not args.grid:
-        args.nruns = 1
-
-    bestloss = float("inf")
-    for _ in range(args.nruns):
-        if args.grid:
-            for hyp, choices in hypers.items():
-                if isinstance(choices, list):
-                    hypvals = choices
-                else: # it's a function
-                    hypvals = choices(args)
-                choice = hypvals[torch.randint(len(hypvals), (1,)).item()]
-                assert hasattr(args, hyp)
-                args.__dict__[hyp] = choice
-
-        try:
-            bestmodel, runloss, optim, scheduler = main(db, args)
-        except OverflowError as ex:
-            runloss = 1e38
-        if runloss < bestloss:
-            bestloss = runloss
-        print()
-        print()
+    bestmodel, runloss, optim, scheduler = main(db, args)

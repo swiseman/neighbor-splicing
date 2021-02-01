@@ -114,18 +114,9 @@ parser.add_argument('-ne_thresh', nargs='+', type=float, default=None,
                     help='[min_score, nmoves, nne, K]')
 parser.add_argument('-max_preds', type=int, default=4000, help='')
 parser.add_argument('-only_copy', action='store_true', help='')
-parser.add_argument('-restrict_mode', default=None, choices=['yes', 'no', None], type=str)
 parser.add_argument('-restrict_nes', type=int, default=5, help='gross but whatever')
 parser.add_argument('-debug', type=int, default=-1, help='')
 parser.add_argument('-startend', nargs='+', type=int, default=None, help='')
-
-# % of derivations with num_moves <= a threshold (tree/gre/tok)
-#
-#       98 perc.    95 perc.    90 perc.
-# e2e   17/23/40    15/20/36    13/18/33
-# giga  10/14         9/13        8/12
-# wb    24/35/50    21/30/47    18/25/40
-
 
 if __name__ == "__main__":
     args = parser.parse_args()
@@ -147,21 +138,6 @@ if __name__ == "__main__":
     print("enclose", args.enclose, "firstlast", args.sel_firstlast_idxing)
     db = data.ValDB(args) # protes should already be added in if
     assert db.sel_firstlast_idxing
-    # if args.ne_thresh > 0:
-    #     print("counting ne usage...")
-    #     tokpath = "encl_tok_data.pt" if args.enclose else "tok_data.pt"
-    #     trmoves = torch.load(os.path.join(args.data, tokpath))[2]
-    #     cntr = Counter()
-    #     for movetree in trmoves:
-    #         temp = []
-    #         movesfromtree(movetree, temp)
-    #         cntr.update([thing[1] for thing in temp if thing[1] >= 0])
-    #     keepers = set(k for k, v in cntr.items() if v >= args.ne_thresh)
-    #     print(len(keepers), "keepers")
-    #     print("pruning neidxs...")
-    #     for i in range(len(db.val_neidxs)):
-    #         db.val_neidxs[i] = [neidx for neidx in db.val_neidxs[i]
-    #                             if neidx in db.protes or neidx in keepers]
 
 
     mod_ctor = mutils.BartThing
@@ -170,20 +146,7 @@ if __name__ == "__main__":
     model = mod_ctor(len(db.d), db.d.gen_voc_size, saved_args)
     model.load_state_dict(saved_stuff["sd"])
     model = model.to(device)
-
-    if args.restrict_mode:
-        import eval_utils as eutils
-        yes = args.restrict_mode == "yes"
-        if "e2e" in args.data:
-            restrictor = eutils.E2ERestrictor(args, multi_sentence=True, yes=yes)
-        elif "giga" in args.data:
-            restrictor = eutils.GigaRestrictor(args, yes=yes)
-        restrict_fn = restrictor.restrict
-        prote_keepers = restrict_fn(db.protes, db, 0)
-        print("nprote_keepers", len(prote_keepers))
-        assert prote_keepers or not args.prote_fi
-    else:
-        restrict_fn = None
+    restrict_fn = None
 
     if args.debug != -2:
         with torch.no_grad():

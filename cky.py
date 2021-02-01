@@ -77,7 +77,6 @@ def backtrack(nt, neighbs, bps, l, r):
         return nt + stuff # stuff is (m, l, r)
     #print(nt, "stuff is", stuff)
     k, leftnt, rightnt = stuff
-    #print("motherfuck", nt, leftnt, rightnt)
     left = backtrack(leftnt, neighbs, bps, l, k)
     right = backtrack(rightnt, neighbs, bps, k, r)
     return [nt, left, right]
@@ -388,28 +387,6 @@ def reconstruct(moves, neighbs):
         neidx, l, r, ii, skip = move[1:]
         canvas = canvas[:ii] + neighbs[neidx][l:r] + canvas[ii+skip:]
     return canvas
-
-
-# def reconstruct(moves, neighbs):
-#     canvas = []
-#     for move in moves:
-#         if move[0] == "insert":
-#             neidx, l, r, ii, _ = move[1:]
-#             canvas = canvas[:ii] + neighbs[neidx][l:r] + canvas[ii:]
-#         else:
-#             neidx, l, r, ii, jj = move[1:]
-#             canvas = canvas[:ii] + neighbs[neidx][l:r] + canvas[jj:]
-#     return canvas
-
-
-# [4, 24, 47, 25, 13, 30]
-# [16, 31, 48, 40, 39]
-# [16, 31, 48, 40, 39, 19] # two insertions into a single span
-
-# fuck
-# [39, 33, 16, 6, 10, 13, 19, 41, 29, 27]
-
-# [27, 21, 40, 19, 19, 33, 19, 19, 49, 47, 19, 14, 25, 13, 30]
 
 
 # concatenates left to right, greedily (which should be optimal in terms of # moves)

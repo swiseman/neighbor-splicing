@@ -11,7 +11,6 @@ from torch.nn.utils.rnn import pad_sequence
 import db2 as data
 import model_utils as mutils
 from search import get_thresh_stuff
-import eval_utils as eutils
 
 class Hyp(object):
     def __init__(self, hyp, score):
@@ -287,7 +286,6 @@ parser.add_argument('-ne_thresh', nargs='+', type=float, default=None,
                     help='[min_score, nmoves, nne, K]')
 parser.add_argument('-max_preds', type=int, default=4000, help='')
 parser.add_argument('-only_copy', action='store_true', help='')
-parser.add_argument('-restrict_mode', default=None, choices=['yes', 'no', None], type=str)
 parser.add_argument('-restrict_nes', type=int, default=5, help='gross but whatever')
 parser.add_argument('-debug', type=int, default=-1, help='')
 parser.add_argument('-startend', nargs='+', type=int, default=None, help='')
@@ -317,19 +315,7 @@ if __name__ == "__main__":
     model = mutils.TokenCopyBart(len(db.d), db.d.gen_voc_size, saved_args)
     model.load_state_dict(saved_stuff["sd"])
     model = model.to(device)
-
-    if args.restrict_mode:
-        yes = args.restrict_mode == "yes"
-        if "e2e" in args.data:
-            restrictor = eutils.E2ERestrictor(args, multi_sentence=True, yes=yes)
-        elif "giga" in args.data:
-            restrictor = eutils.GigaRestrictor(args, yes=yes)
-        restrict_fn = restrictor.restrict
-        prote_keepers = restrict_fn(db.protes, db, 0)
-        print("nprote_keepers", len(prote_keepers))
-        assert prote_keepers or not args.prote_fi
-    else:
-        restrict_fn = None
+    restrict_fn = None
 
     with torch.no_grad():
         tic = time.perf_counter()
