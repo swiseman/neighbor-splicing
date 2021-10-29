@@ -1,6 +1,6 @@
 Code for [Data-to-text Generation by Splicing Together Nearest Neighbors](https://arxiv.org/pdf/2101.08248.pdf).
 
-We show how to set up and train on the E2E data, which we include. The WikiBio data can be downloaded from its Github repository and processed analogously.
+We show how to set up and train on the [E2E data](https://github.com/tuetschek/e2e-dataset) (Novikova et al., 2017), which we include. The WikiBio data can be downloaded from its Github repository and processed analogously.
 
 ## Requirements
 - pytorch 1.6.0
