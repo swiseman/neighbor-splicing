@@ -69,8 +69,6 @@ python -u gold_derivs.py -val_src_fi data/wb/train-src.txt -val_tgt_fi data/wb/t
 ```
 python -u gold_derivs.py -val_src_fi data/wb/val-src.txt -val_tgt_fi data/wb/val-tgt.txt -val_ne_fi data/wb/val-nes.txt -ne_tgt_fi data/wb/masked-train-tgt.txt -out_fi data/wb/val-encl-derivs.dat -split_dashes -nne 20 -max_srclen 130 -max_tgtlen 50 -enclose -val
 ```
-python -u gold_derivs.py -val_src_fi data/e2e/val-src.txt -val_tgt_fi data/e2e/val-tgt.txt -val_ne_fi data/e2e/val-nes.txt -ne_tgt_fi data/e2e/masked-train-tgt.txt -out_fi data/e2e/val-encl-derivs.dat -split_dashes -nne 20 -e2e -max_srclen 100 -max_tgtlen 70 -enclose -val
-```
 
 ### Training
 
