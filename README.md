@@ -42,7 +42,7 @@ The WikiBio data (Lebret et al., 2016) can be downloaded [here](https://rlebret.
 Below we detail the commands necessary for calculating nearest neighbors and oracle derivations. **These files can also be downloaded from this [folder](https://drive.google.com/drive/folders/1xtO5_yyjZWOLHcY5Wyr6fIUZrC1bq0BV?usp=sharing).**
 
 
-- Retrieve neighbors (you may want to increase or decrease `-bsz` in the script below depending your hardward):
+- Retrieve neighbors (you may want to increase or decrease `-bsz` in the script below depending your hardware):
 ```
 python -u writenes.py -ne_fi data/wb/train-src.txt -train_tgt_fi data/wb/train-tgt.txt -out_fi data/wb/train-nes.txt -nne 40 -cuda
 ```
