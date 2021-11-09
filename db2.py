@@ -146,11 +146,11 @@ class BaseDB(object):
             if self.dataset in ["wb", "e2e"]:
                 self.make_vocab(os.path.join(args.data, "train-src.txt"),
                                 os.path.join(args.data, train_tgtfi),
-                                os.path.join(args.data, "train-encl-derivs.txt"))
+                                os.path.join(args.data, "train-encl-derivs.dat"))
             else:
                 self.make_seq_vocab(os.path.join(args.data, "train-src.txt"),
                                     os.path.join(args.data, train_tgtfi),
-                                    os.path.join(args.data, "train-encl-derivs.txt"))
+                                    os.path.join(args.data, "train-encl-derivs.dat"))
             torch.save(self.d, os.path.join(args.data, "dict.pt"))
 
         self.get_gen_idx = lambda wrd: (self.d.w2i[wrd] if wrd in self.d.w2i
@@ -465,7 +465,7 @@ class TrainDB(BaseDB):
         if args.arbl:
             tokpath = "ar_" + tokpath
 
-        train_derivfi, val_derivfi = "derivs.txt", "derivs.txt"
+        train_derivfi, val_derivfi = "derivs.dat", "derivs.dat"
         if args.leftright:
             train_derivfi, val_derivfi = "gr-" + train_derivfi, "gr-" + val_derivfi
         if args.enclose:

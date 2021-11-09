@@ -122,7 +122,9 @@ if __name__ == "__main__":
     wid, nwrkrs = args.wrkr.split(',')
     wid, nwrkrs = int(wid), int(nwrkrs)
 
-    assert not os.path.exists(args.out_fi + "-" + str(wid))
+    fi_suffix = "-" + str(wid) if nwrkrs > 1 else ""
+
+    assert not os.path.exists(args.out_fi + fi_suffix)
 
     get_fields = get_e2e_fields if args.e2e else get_wikibio_fields
 
@@ -173,14 +175,15 @@ if __name__ == "__main__":
     print("use_protes", args.prote_fi)
 
     # get actions
-    with open(args.out_fi + "-" + str(wid), "ab") as f:
+    with open(args.out_fi + fi_suffix, "ab") as f:
         with open(args.val_src_fi) as fsrc:
             with open(args.val_tgt_fi) as ftgt:
                 #for i in range(start, end):
                 for i, srcline in enumerate(fsrc):
                     tgtline = ftgt.readline()
                     if i >= start and i < end:
-                        print("doing", i)
+                        if i % 1000 == 0:
+                            print("doing", i)
                         src = get_src(srcline, tokenizer, get_fields,
                                       split_dashes=args.split_dashes, src_is_seq=args.src_is_seq)
                         if tokenizer:
