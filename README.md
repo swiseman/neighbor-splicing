@@ -37,9 +37,9 @@ python -u gold_derivs.py -val_src_fi data/e2e/val-src.txt -val_tgt_fi data/e2e/v
 ```
 
 ### Making the WikiBio data
-The WikiBio data (Lebret et al., 2016) can be downloaded [here](https://rlebret.github.io/wikipedia-biography-dataset/). Follow the instructions at the preceding link to obtain aligned source (i.e., `*.box`) and target files. (You can also get the data from [HuggingFace](https://huggingface.co/datasets/wiki_bio)). Call the `*.box` files `{train|val|test}-src.txt` and the target files `{train|val|test}-tgt.txt` and put them in the same directory.
+The WikiBio data (Lebret et al., 2016) can be downloaded [here](https://rlebret.github.io/wikipedia-biography-dataset/). Follow the instructions at the preceding link to obtain aligned source (i.e., `*.box`) and target files. (You can also get the data from [HuggingFace](https://huggingface.co/datasets/wiki_bio)). Call the `*.box` files `{train|val|test}-src.txt` and the target files `{train|val|test}-tgt.txt` and put them in the same directory, say, `data/wb/`.
 
-Below we detail the commands necessary for calculating nearest neighbors and oracle derivations. **These files can also be downloaded from this [folder](https://drive.google.com/drive/folders/1xtO5_yyjZWOLHcY5Wyr6fIUZrC1bq0BV?usp=sharing).**
+Below we detail the commands necessary for calculating nearest neighbors and oracle derivations. **These files can also be downloaded from this [folder](https://drive.google.com/drive/folders/1xtO5_yyjZWOLHcY5Wyr6fIUZrC1bq0BV?usp=sharing)** and they should be placed in the same directory as the `{train|val|test}-src.txt` and `{train|val|test}-tgt.txt` files (`data/wb/` in the scripts below).
 
 
 - Retrieve neighbors (you may want to increase or decrease `-bsz` in the script below depending your hardware):
