@@ -101,12 +101,12 @@ def do_batch(model, db, masks, dummy, device, args, val=False):
             (wts[0]*loss1 + wts[1]*loss2 + wts[2]*loss3).backward()
 
     except RuntimeError as ex:
-        # raise ex
-        print("assuming OOM")
-        gc.collect()
-        torch.cuda.empty_cache()
-        loss1, loss2 = None, None
-        ncrct1, npreds1, ncrct2, npreds2 = None, None, None, None
+        raise ex
+        #print("assuming OOM")
+        #gc.collect()
+        #torch.cuda.empty_cache()
+        #loss1, loss2 = None, None
+        #ncrct1, npreds1, ncrct2, npreds2 = None, None, None, None
 
     return loss1, loss2, bsz, ncrct1, npreds1, ncrct2, npreds2
 
