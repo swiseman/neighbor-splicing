@@ -89,3 +89,10 @@ python -u search.py -cuda -data data/e2e/ -val_src_fi src_uniq_valid.txt -val_ne
 ```
 python -u search.py -cuda -data data/wb/ -val_src_fi val-src.txt -val_nefi val-nes.txt -get_trace -bsz 1 -train_from my_wb_model.pt-l -split_dashes -K 10 -max_moves 28 -nne 20 -out_fi wb_val.out
 ```
+
+### Postprocessing
+The generated text comes enclosed in tags and along with its derivation. To obtain just the generated text, run
+```
+python strip_tags_and_deriv.py < generated_text.out > generated_text.strpd
+```
+The [eval_e2e_out.bash](script) calls the above, as well as the detokenization [script](https://github.com/UFAL-DSG/tgen/blob/master/e2e-challenge/postprocess/postprocess.py) from the TGen [repo](https://github.com/UFAL-DSG/tgen), before calling the standard E2E evaluation [script](https://github.com/tuetschek/e2e-metrics/blob/master/measure_scores.py) from the E2E metrics [repo](https://github.com/tuetschek/e2e-metrics).
