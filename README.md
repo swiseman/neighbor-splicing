@@ -95,4 +95,7 @@ The generated text comes enclosed in tags and along with its derivation. To obta
 ```
 python strip_tags_and_deriv.py < generated_text.out > generated_text.strpd
 ```
-The [eval_e2e_out.bash](script) calls the above, as well as the detokenization [script](https://github.com/UFAL-DSG/tgen/blob/master/e2e-challenge/postprocess/postprocess.py) from the TGen [repo](https://github.com/UFAL-DSG/tgen), before calling the standard E2E evaluation [script](https://github.com/tuetschek/e2e-metrics/blob/master/measure_scores.py) from the E2E metrics [repo](https://github.com/tuetschek/e2e-metrics).
+The [eval_e2e_out.bash](script) calls the above, as well as the detokenization [script](https://github.com/UFAL-DSG/tgen/blob/master/e2e-challenge/postprocess/postprocess.py) from the TGen [repo](https://github.com/UFAL-DSG/tgen), before calling the standard E2E evaluation [script](https://github.com/tuetschek/e2e-metrics/blob/master/measure_scores.py) from the E2E metrics [repo](https://github.com/tuetschek/e2e-metrics). The `eval_e2e_out.bash` script should be run like:
+```
+bash eval_e2e_out.bash e2e_preds.out gold_target_file.txt
+```
