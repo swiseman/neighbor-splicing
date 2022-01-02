@@ -305,7 +305,7 @@ def main(db, args):
         optim, scheduler = prep_optim(model, args)
         best_loss, best_acc = float("inf"), 0
 
-    max_ncanvs, max_seqlen = 250, max(db.max_srclen, db.max_tgtlen)
+    max_ncanvs, max_seqlen = 500, max(db.max_srclen, db.max_tgtlen)
     maskcanvlen = 1 if args.leftright else args.max_canvlen
     emask = torch.ones(max_ncanvs, maskcanvlen, max_seqlen, dtype=torch.bool).to(device)
     masks = [emask]
