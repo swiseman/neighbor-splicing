@@ -2,7 +2,7 @@ Code for [Data-to-text Generation by Splicing Together Nearest Neighbors](https:
 
 
 ### Requirements
-- pytorch 1.6.0
+- pytorch >= 1.6.0
 - transformers 3.3.1
 
 ### Making the E2E data
